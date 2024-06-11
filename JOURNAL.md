@@ -101,6 +101,21 @@ I think I'm ready to start a new unity project and install the Agone C# Game Ser
 
 ---
 
+But first, going to follow up on [xoofx/UnityNuGet PR#376](https://github.com/xoofx/UnityNuGet/pull/376) because the build failed.
+```text
+The package `AgonesSDK.1.0.2` has a dependency on `Google.Api.CommonProtos` which is not in the registry. You must add this dependency to the registry.json file.
+The package `AgonesSDK.1.0.2` has a dependency on `Grpc` which is not in the registry. You must add this dependency to the registry.json file.
+...
+```
+
+Just need to add those dependencies to the `registry.json` file.
+- https://www.nuget.org/packages/Google.Api.CommonProtos
+- https://www.nuget.org/packages/Grpc
+
+Cool, ready to move on.
+
+---
+
 
 ## June 10th 2024
 Sought guidance on how to use Agones. Had these three guides highlighted to me:
