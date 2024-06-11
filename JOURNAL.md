@@ -139,6 +139,55 @@ Added Mirror, created new network manager and am now referencing the [AgonesSDK 
 
 Haven't gotten the Agones Game Server C# SDK to talk to the running SDK Server quite yet. I'm sure I'll have to futz around more to get it all connected.
 
+---
+
+I purposefully did not use Agones correctly. This is because I was exploring the guides that were presented to me. I should fix this.
+
+![agones-exploratory-misuse.png](media/agones-exploratory-misuse.png)
+
+- Running SDK Server in top window of terminal
+  ```bash
+  ~/Downloads/agonessdk-server-1.41.0/sdk-server.darwin.arm64 \
+    --gameserver-name my-local-server \
+    --pod-namespace default \
+    --kubeconfig "$HOME/.kube/config" \
+    --address 0.0.0.0 \
+    --graceful-termination false
+  ```
+- Running container image of simple game server
+  ```bash
+  docker run --rm --network="host" us-docker.pkg.dev/agones-images/examples/simple-game-server:0.32
+  ```
+- Unity Editor contains running game server process when played.
+  
+  The issue I'm facing right now with my game server is when my `Mirror.NetworkManager` runs it's authoritative on server start/stop my current use of the AgonesSDK C# client sdk is not able to connect to the "SDK Server" running as a standalone process.
+
+  ```text
+  NetworkManager | non-ok status: Unavailable
+  UnityEngine.Debug:LogError (object)
+  AgonesNetworkManager/<ReadyForPlayers>d__3:MoveNext () (at Assets/Scripts/AgonesNetworkManager.cs:27)
+  System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Grpc.Core.Status>:SetResult (Grpc.Core.Status)
+  Agones.AgonesSDK/<ReadyAsync>d__32:MoveNext ()
+  UnityEngine.UnitySynchronizationContext:ExecuteTasks () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/UnitySynchronizationContext.cs:107)
+  ```
+
+  ```text
+  NetworkManager | details: Error starting gRPC call. HttpRequestException: An error occurred while sending the request. IOException: Unable to read data from the transport connection: Connection reset by peer. SocketException: Connection reset by peer
+  UnityEngine.Debug:LogError (object)
+  AgonesNetworkManager/<ReadyForPlayers>d__3:MoveNext () (at Assets/Scripts/AgonesNetworkManager.cs:28)
+  System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Grpc.Core.Status>:SetResult (Grpc.Core.Status)
+  Agones.AgonesSDK/<ReadyAsync>d__32:MoveNext ()
+  UnityEngine.UnitySynchronizationContext:ExecuteTasks () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/UnitySynchronizationContext.cs:107)
+  ```
+
+Things I can try
+- Restart the SDK Server process as `--local` to enable connection
+- Update the `GameServer` CRD to point to `127.0.0.1` instead of what value I left it at
+- Debug follow the execution of `AgonesSDK.ReadyAsync` to see what happens. Answer questions...
+    - What connection values are being used?
+    - Is there a service instance running where it thinks it should be connecting to?
+- Reread guides
+
 ## June 10th 2024
 Sought guidance on how to use Agones. Had these three guides highlighted to me:
 - https://agones.dev/site/docs/guides/client-sdks/local/
