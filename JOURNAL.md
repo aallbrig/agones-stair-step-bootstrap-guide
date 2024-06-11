@@ -188,6 +188,20 @@ Things I can try
     - Is there a service instance running where it thinks it should be connecting to?
 - Reread guides
 
+![sdk-server-help-output.png](media/sdk-server-help-output.png)
+
+SDK server help output shows by default there's a grpc service on localhost:9357 and an http service on localhost:9358.
+
+I'm surprised `curl -X POST "http://localhost:9358/ready" -H "accept: application/json" -H "Content-Type: application/json" -d "{}"` has no problem interacting with the running sdk server but not through AgonesSDK.ReadyAsync().
+
+---
+
+Oh my... I've been using the generic C# SDK. There's an SDK specific to clients. https://agones.dev/site/docs/guides/client-sdks/unity/ >.< 😅
+
+Yup, once installed I can successfully connect to a `--local` instance of SDK server. Yay!
+
+![agones-local-development-success.png](media/agones-local-development-success.png)
+
 ## June 10th 2024
 Sought guidance on how to use Agones. Had these three guides highlighted to me:
 - https://agones.dev/site/docs/guides/client-sdks/local/

@@ -7,6 +7,13 @@
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
+    "com.googleforgames.agones": {
+      "version": "https://github.com/googleforgames/agones.git?path=/sdks/unity#v1.41.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "2abfd7165b9fb52bc732f420d29cb4ffae380f60"
+    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,
