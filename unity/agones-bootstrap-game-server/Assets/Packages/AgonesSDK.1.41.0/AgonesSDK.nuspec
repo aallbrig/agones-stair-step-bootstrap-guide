@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>AgonesSDK</id>
+    <version>1.41.0</version>
+    <authors>Google LLC</authors>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://agones.dev/</projectUrl>
+    <description>Game Server SDK for Agones, the open source project for hosting dedicated game servers on Kubernetes</description>
+    <tags>agones, googleforgames, kuberenetes, multiplayer, gameservers</tags>
+    <repository url="https://github.com/googleforgames/agones" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Google.Api.CommonProtos" version="2.10.0" exclude="Build,Analyzers" />
+        <dependency id="Google.Protobuf" version="3.24.3" exclude="Build,Analyzers" />
+        <dependency id="Grpc.Net.Client" version="2.57.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging" version="3.1.4" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
