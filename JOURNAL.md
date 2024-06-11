@@ -135,6 +135,10 @@ openupm add com.github-glitchenzo.nugetforunity
 
 Added Mirror, created new network manager and am now referencing the [AgonesSDK C# guide](https://agones.dev/site/docs/guides/client-sdks/csharp/). First thing I noticed was the `agones.ConnectAsync()` is deprecated but the docs don't mention. Opened PR to address in documentation: https://github.com/googleforgames/agones/pull/3866
 
+---
+
+Haven't gotten the Agones Game Server C# SDK to talk to the running SDK Server quite yet. I'm sure I'll have to futz around more to get it all connected.
+
 ## June 10th 2024
 Sought guidance on how to use Agones. Had these three guides highlighted to me:
 - https://agones.dev/site/docs/guides/client-sdks/local/

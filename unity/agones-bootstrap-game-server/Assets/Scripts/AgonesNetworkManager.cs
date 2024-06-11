@@ -25,6 +25,7 @@ public class AgonesNetworkManager : NetworkManager
             if (status.StatusCode != StatusCode.OK)
             {
                 Debug.LogError($"{name} | non-ok status: {status.StatusCode}");
+                Debug.LogError($"{name} | details: {status.Detail}");
                 return;
             }
             Debug.Log($"{name} | Game Server is ready for players");
