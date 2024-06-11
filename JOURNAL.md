@@ -115,7 +115,21 @@ Just need to add those dependencies to the `registry.json` file.
 Cool, ready to move on.
 
 ---
+New Unity project
+```bash
+mkdir -p unity
+latest_unity_editor=$(ls -d /Applications/Unity/Hub/Editor/* | sort -V | tail -n 1)
+"${latest_unity_editor}/Unity.app/Contents/MacOS/Unity" -createProject $(pwd)/unity/agones-bootstrap-game-server
+curl https://raw.githubusercontent.com/github/gitignore/main/Unity.gitignore -o unity/agones-bootstrap-game-server/.gitignore
+```
 
+Download/unzip AgonesSDK and then copy .DLL file into Assets/Plugins
+```bash
+curl -L https://www.nuget.org/api/v2/package/AgonesSDK/1.41.0 -o ~/Downloads/AgonesSDK.1.41.0.nupkg
+unzip ~/Downloads/AgonesSDK.1.41.0.nupkg -d ~/Downloads/AgonesSDK_1.41.0
+mkdir -p unity/agones-bootstrap-game-server/Assets/Plugins
+cp ~/Downloads/AgonesSDK_1.41.0/lib/netstandard2.0/AgonesSDK.dll unity/agones-bootstrap-game-server/Assets/Plugins/
+```
 
 ## June 10th 2024
 Sought guidance on how to use Agones. Had these three guides highlighted to me:
