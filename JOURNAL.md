@@ -202,6 +202,8 @@ Yup, once installed I can successfully connect to a `--local` instance of SDK se
 
 ![agones-local-development-success.png](media/agones-local-development-success.png)
 
+Now that I've seen the game server process interacting with the local SDK server, I can think about testing the same unity project from inside a container.
+
 ## June 10th 2024
 Sought guidance on how to use Agones. Had these three guides highlighted to me:
 - https://agones.dev/site/docs/guides/client-sdks/local/

@@ -353,7 +353,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthIntervalSecond: 5
   healthEnabled: 1
-  logEnabled: 1
+  logEnabled: 0
 --- !u!1 &1273208000
 GameObject:
   m_ObjectHideFlags: 0

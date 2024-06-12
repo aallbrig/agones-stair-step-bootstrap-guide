@@ -16,6 +16,10 @@ public class AgonesGameServer : NetworkManager
     {
         GameServerReady();
     }
+    public override void OnStopServer()
+    {
+        GameServerShutdown();
+    }
     private async void GameServerReady()
     {
         var ok = await agones.Connect();
@@ -39,6 +43,8 @@ public class AgonesGameServer : NetworkManager
         if (!ok)
         {
             Debug.LogError($"{name} | unable to indicate server shut down");
+            return;
         }
+        Debug.Log($"{name} | game server shutdown with agones platform");
     }
 }
