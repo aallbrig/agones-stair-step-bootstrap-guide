@@ -5,12 +5,35 @@ using UnityEngine;
 public class AgonesGameServer : NetworkManager
 {
     [SerializeField]
-    private AgonesSdk agones;
+    private AgonesSdk agonesSdk;
+    [SerializeField]
+    private AgonesAlphaSdk agonesAlphaSdk;
+
+    public override void OnApplicationQuit()
+    {
+        GameServerShutdown();
+        base.OnApplicationQuit();
+    }
 
     public override void Start()
     {
         base.Start();
-        agones ??= GetComponent<AgonesSdk>();
+        agonesSdk ??= GetComponent<AgonesSdk>();
+        agonesSdk ??= FindObjectOfType<AgonesSdk>();
+        if (agonesSdk == null)
+        {
+            Debug.LogError($"{name} | unable to find AgonesSdk component in scene");
+            enabled = false;
+            return;
+        }
+        agonesAlphaSdk ??= GetComponent<AgonesAlphaSdk>();
+        agonesAlphaSdk ??= FindObjectOfType<AgonesAlphaSdk>();
+        if (agonesAlphaSdk == null)
+        {
+            Debug.LogError($"{name} | unable to find AgonesAlphaSdk component in scene");
+            enabled = false;
+            return;
+        }
     }
     public override void OnStartServer()
     {
@@ -22,14 +45,14 @@ public class AgonesGameServer : NetworkManager
     }
     private async void GameServerReady()
     {
-        var ok = await agones.Connect();
+        var ok = await agonesSdk.Connect();
         if (!ok)
         {
             Debug.LogError($"{name} | unable to connect to agones");
             return;
         }
         
-        ok = await agones.Ready();
+        ok = await agonesSdk.Ready();
         if (!ok)
         {
             Debug.LogError($"{name} | unable to make self ready");
@@ -39,7 +62,7 @@ public class AgonesGameServer : NetworkManager
     }
     private async void GameServerShutdown()
     {
-        var ok = await agones.Shutdown();
+        var ok = await agonesSdk.Shutdown();
         if (!ok)
         {
             Debug.LogError($"{name} | unable to indicate server shut down");

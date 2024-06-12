@@ -204,6 +204,15 @@ Yup, once installed I can successfully connect to a `--local` instance of SDK se
 
 Now that I've seen the game server process interacting with the local SDK server, I can think about testing the same unity project from inside a container.
 
+---
+
+Added player input and various components to player prefab.
+![player-prefab-cinemachine-freelook.png](media/player-prefab-cinemachine-freelook.png)
+![player-prefab-avatar-game-object.png](media/player-prefab-avatar-game-object.png)
+![player-prefab-camera-game-object.png](media/player-prefab-camera-game-object.png)
+
+I think that's enough for now.
+
 ## June 10th 2024
 Sought guidance on how to use Agones. Had these three guides highlighted to me:
 - https://agones.dev/site/docs/guides/client-sdks/local/
