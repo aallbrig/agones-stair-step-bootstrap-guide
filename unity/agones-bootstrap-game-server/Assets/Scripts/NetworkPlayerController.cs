@@ -9,14 +9,9 @@ public class NetworkPlayerController : NetworkBehaviour
     [SerializeField] private CharacterController characterController;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private float movementSpeed = 5.0f;
-    [SerializeField] private float rotationSpeed = 10.0f;
-    [SerializeField] private float lookSpeed = 2.0f;
-    [SerializeField] private float rotationPower = 5.0f;
+    [SerializeField] private float rotationSpeed = 16.0f;
     [SerializeField] private CinemachineFreeLook playerCamera;
     private Vector2 _moveInput;
-    private Transform _transform;
-    private Quaternion _nextRotation;
-    private float _rotationLerp;
     private Camera _mainCamera;
     private void Start()
     {
@@ -30,7 +25,6 @@ public class NetworkPlayerController : NetworkBehaviour
         playerInput.camera ??= Camera.main;
         _mainCamera = Camera.main;
         characterController = GetComponent<CharacterController>();
-        _transform = transform;
     }
     private void Update()
     {

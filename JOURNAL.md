@@ -1,3 +1,25 @@
+## June 12th 2024
+Today
+- [x] Editor build script
+- [x] connect a game client (darwin build) to game server (unity editor)
+- [ ] connect a game client (darwin build) to game server (running in container)
+- [ ] connect a game client (unity editor) to game server (running in container)
+- [ ] connect a game client (unity editor) to game server (running in k8s (minikube))
+
+#### Connect Game Client (darwin build) to Game Server (unity editor)
+Success!
+#### Connect Game Client (unity editor) to Game Server (container)
+This is a little more tricky. I'm not sure why, but I can't seem to have my game server bind to localhost:7777. The command I'm running:
+```bash
+# build from unity/agones-bootstrap-game-server
+docker buildx build --platform linux/amd64 -f GameServer.Dockerfile -t gameserver:latest .
+docker run -it --rm --platform linux/amd64 --network host gameserver:latest
+```
+
+The container can find http://localhost:9358 and interact with the SDK server, it just doesn't seen to be binding a udp service to port 7777.
+
+Also, in order to run in container on my M2 macbook I had to set Unity's scripting backend to IL2CPP and the server has to be running in Dev mode. Not sure why. Mono backend can't be fully emulated by qemu I guess.
+
 ## June 11th 2024
 The goal for today is to use the [Agones local development guide](https://agones.dev/site/docs/guides/client-sdks/local/) to _get something going_ locally in my unity editor. Since my UnityNuGet issue/PR are still in flight, the plan is to manually download C# Agone Game Server Client SDK directly from [its NuGet package location](https://www.nuget.org/packages/AgonesSDK) into a newly created unity project. I find it nice that one can get started developing without having to have a kubernetes cluster in the mix, at least yet.
 
@@ -141,7 +163,7 @@ Haven't gotten the Agones Game Server C# SDK to talk to the running SDK Server q
 
 ---
 
-I purposefully did not use Agones correctly. This is because I was exploring the guides that were presented to me. I should fix this.
+I purposefully did not focus on proper Agones use for exploratory purposes. Now is time to attempt to fix.
 
 ![agones-exploratory-misuse.png](media/agones-exploratory-misuse.png)
 
@@ -206,10 +228,12 @@ Now that I've seen the game server process interacting with the local SDK server
 
 ---
 
-Added player input and various components to player prefab.
+Added player input, third person controls, and various components to the player prefab.
 ![player-prefab-cinemachine-freelook.png](media/player-prefab-cinemachine-freelook.png)
 ![player-prefab-avatar-game-object.png](media/player-prefab-avatar-game-object.png)
 ![player-prefab-camera-game-object.png](media/player-prefab-camera-game-object.png)
+
+I used this iHeartGameDev's [How to use Cinemachine's Free Look Camera | 3rd Person Camera in Unity](https://www.youtube.com/watch?v=XT6mUlpO4fA) as reference.
 
 I think that's enough for now.
 

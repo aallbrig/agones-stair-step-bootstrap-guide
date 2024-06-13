@@ -15,9 +15,8 @@ public class AgonesGameServer : NetworkManager
         base.OnApplicationQuit();
     }
 
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
         agonesSdk ??= GetComponent<AgonesSdk>();
         agonesSdk ??= FindObjectOfType<AgonesSdk>();
         if (agonesSdk == null)
@@ -34,14 +33,21 @@ public class AgonesGameServer : NetworkManager
             enabled = false;
             return;
         }
+        agonesSdk.enabled = false;
+        agonesAlphaSdk.enabled = false;
+        base.Awake();
     }
     public override void OnStartServer()
     {
+        agonesSdk.enabled = true;
+        agonesAlphaSdk.enabled = true;
         GameServerReady();
     }
     public override void OnStopServer()
     {
         GameServerShutdown();
+        agonesSdk.enabled = true;
+        agonesAlphaSdk.enabled = true;
     }
     private async void GameServerReady()
     {
