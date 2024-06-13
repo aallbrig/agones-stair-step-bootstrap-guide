@@ -2,13 +2,13 @@
 Today
 - [x] Editor build script
 - [x] connect a game client (darwin build) to game server (unity editor)
-- [ ] connect a game client (darwin build) to game server (running in container)
-- [ ] connect a game client (unity editor) to game server (running in container)
+- [x] connect a game client (darwin build) to game server (running in container)
+- [x] connect a game client (unity editor) to game server (running in container)
 - [ ] connect a game client (unity editor) to game server (running in k8s (minikube))
 
 #### Connect Game Client (darwin build) to Game Server (unity editor)
 Success!
-#### Connect Game Client (unity editor) to Game Server (container)
+#### Connect Game Client (darwin build/unity editor) to Game Server (container)
 This is a little more tricky. I'm not sure why, but I can't seem to have my game server bind to localhost:7777. The command I'm running:
 ```bash
 # build from unity/agones-bootstrap-game-server
@@ -19,6 +19,13 @@ docker run -it --rm --platform linux/amd64 --network host gameserver:latest
 The container can find http://localhost:9358 and interact with the SDK server, it just doesn't seen to be binding a udp service to port 7777.
 
 Also, in order to run in container on my M2 macbook I had to set Unity's scripting backend to IL2CPP and the server has to be running in Dev mode. Not sure why. Mono backend can't be fully emulated by qemu I guess.
+
+Ah, well got the game client (unity editor, darwin build) connected to game server (container) by dropping the `--network host` and adding `-p7777:7777/udp` instead. That shouldn't matter but evidently it does.
+
+```bash
+docker run -it --rm --platform linux/amd64 -p7777:7777/udp gameserver:latest
+```
+
 
 ## June 11th 2024
 The goal for today is to use the [Agones local development guide](https://agones.dev/site/docs/guides/client-sdks/local/) to _get something going_ locally in my unity editor. Since my UnityNuGet issue/PR are still in flight, the plan is to manually download C# Agone Game Server Client SDK directly from [its NuGet package location](https://www.nuget.org/packages/AgonesSDK) into a newly created unity project. I find it nice that one can get started developing without having to have a kubernetes cluster in the mix, at least yet.
