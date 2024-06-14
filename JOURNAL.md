@@ -1,3 +1,63 @@
+## June 14th 2024
+So far, onboarding onto Agones is _very_ pleasant. The developers have thought about how to enable rapid prototype development on localhost. There exists a clear stair stepped bootstrap story that I just really jibe with.
+
+I'm having an issue I want to resolve. The issue is when I run `docker run -it --rm --platform linux/amd64 --network host gameserver:latest` I cannot connect my game client in unity editor to the udp service running behind `localhost:7777` but the game server can communicate with `localhost:9358` via the Agones Unity SDK. If I instead run `docker run -it --rm --platform linux/amd64 -p7777:7777/udp gameserver:latest` I __can__ connect a game client running in unity editor to mirror game server running in container but the game server cannot talk to `localhost:9358` via the Agones Unity SDK.
+
+I think I can try...
+- combine the command `docker run -it --rm --platform linux/amd64 --network host -p7777:7777/udp gameserver:latest`
+  Doesn't work because --network host overrides the port binding. Results in 
+  ```text
+  Connection failed, retrying.
+  Agones.<Connect>d__9:MoveNext()
+  System.Threading.ExecutionContext:RunInternal(ExecutionContext, ContextCallback, Object, Boolean)
+  System.Runtime.CompilerServices.MoveNextRunner:Run()
+  System.Threading.Tasks.AwaitTaskContinuation:RunCallback(ContextCallback, Object, Task&)
+  System.Threading.Tasks.Task:FinishContinuations()
+  System.Threading.Tasks.Task`1:TrySetResult(TResult)
+  System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1:SetResult(TResult)
+  Agones.<GameServer>d__11:MoveNext()
+  System.Threading.ExecutionContext:RunInternal(ExecutionContext, ContextCallback, Object, Boolean)
+  System.Runtime.CompilerServices.MoveNextRunner:Run()
+  System.Threading.Tasks.AwaitTaskContinuation:RunCallback(ContextCallback, Object, Task&)
+  System.Threading.Tasks.Task:FinishContinuations()
+  System.Threading.Tasks.Task`1:TrySetResult(TResult)
+  System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1:SetResult(TResult)
+  Agones.<SendRequestAsync>d__22:MoveNext()
+  System.Threading.ExecutionContext:RunInternal(ExecutionContext, ContextCallback, Object, Boolean)
+  System.Runtime.CompilerServices.MoveNextRunner:Run()
+  Agones.AgonesAsyncOperationAwaiter:OnRequestCompleted(AsyncOperation)
+  UnityEngine.AsyncOperation:InvokeCompletionEvent()
+  ```
+- Run `docker run -it --rm --platform linux/amd64 --network host gameserver:latest` but try connecting to `host.docker.internal:7777` instead of `localhost:7777` in unity editor.
+
+---
+
+Ha! Problem solved. Turns out I needed to force the KCP transport to bind to IPV4 instead of IPV6 like it was doing. I installed net tools into the container and ran `lsof -i :7777` & `netstat -tulnp | grep 7777` to confirm which IP version was being specifically listened to.
+
+![game-server-listens-to-ipv6.png](media/game-server-listens-to-ipv6.png)
+__Above shows KCP transport listening to IPV6__
+![game-server-listens-to-ipv4.png](media/game-server-listens-to-ipv4.png)
+__Above shows KCP transport listening to IPV4__
+
+The trick for me was to untick __Dual Mode__ in the KCP transport component values. This forces IPV4 usage. I can then run the 
+
+Nice, moving on to the next stair step.
+
+---
+
+Can I run the container inside my minikube k8s cluster? I think the answer is "yes." Let's see.
+
+---
+
+```bash
+# build gameserver:latest
+docker buildx build --platform linux/amd64 -f GameServer.Dockerfile -t gameserver:latest .
+# Load up the already builder gameserver:latest image into minikube agones profile
+minikube -p agones image load gameserver:latest --daemon
+```
+
+
+
 ## June 12th 2024
 Today
 - [x] Editor build script
@@ -13,7 +73,10 @@ This is a little more tricky. I'm not sure why, but I can't seem to have my game
 ```bash
 # build from unity/agones-bootstrap-game-server
 docker buildx build --platform linux/amd64 -f GameServer.Dockerfile -t gameserver:latest .
+# note: below command doesn't work as expected (port 7777 isn't bound to)
 docker run -it --rm --platform linux/amd64 --network host gameserver:latest
+# correct command, at least for my M2 MBP dev machine
+docker run -it --rm --platform linux/amd64 -p7777:7777/udp gameserver:latest
 ```
 
 The container can find http://localhost:9358 and interact with the SDK server, it just doesn't seen to be binding a udp service to port 7777.

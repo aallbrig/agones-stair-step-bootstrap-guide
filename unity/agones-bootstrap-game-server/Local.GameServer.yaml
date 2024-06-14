@@ -1,0 +1,17 @@
+apiVersion: "agones.dev/v1"
+kind: GameServer
+metadata:
+  name: agones-bootstrap-game-server
+spec:
+  template:
+    spec:
+      containers:
+        - name: gameserver
+          image: gameserver:latest
+          imagePullPolicy: Never
+          ports:
+            - name: default
+              containerPort: 7777
+              hostPort: 7777
+              protocol: UDP
+      hostNetwork: true

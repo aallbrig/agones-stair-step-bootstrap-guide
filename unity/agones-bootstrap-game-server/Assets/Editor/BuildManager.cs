@@ -10,7 +10,7 @@ namespace Editor
             BuildGameClients();
             BuildGameServers();
         }
-        // [MenuItem("Game/BuildManager/Build Game Client")]
+        [MenuItem("Game/BuildManager/Build Game Client")]
         public static void BuildGameClients()
         {
             BuildPipeline.BuildPlayer(new BuildPlayerOptions
@@ -21,11 +21,11 @@ namespace Editor
                 },
                 locationPathName = "Builds/GameClient/game.amd64.app",
                 target = BuildTarget.StandaloneOSX,
-                subtarget = (int) StandaloneBuildSubtarget.NoSubtarget,
+                // subtarget = (int) StandaloneBuildSubtarget.NoSubtarget,
                 options = BuildOptions.None
             });
         }
-        // [MenuItem("Game/BuildManager/Build Game Server")]
+        [MenuItem("Game/BuildManager/Build Game Server")]
         public static void BuildGameServers()
         {
             // set to IL2CPP for server builds

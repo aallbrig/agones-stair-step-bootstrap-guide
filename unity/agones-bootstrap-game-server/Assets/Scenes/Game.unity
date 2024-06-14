@@ -330,7 +330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   port: 7777
-  DualMode: 1
+  DualMode: 0
   NoDelay: 1
   Interval: 10
   Timeout: 10000
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthIntervalSecond: 5
   healthEnabled: 1
-  logEnabled: 1
+  logEnabled: 0
 --- !u!114 &960090934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,7 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthIntervalSecond: 5
   healthEnabled: 0
-  logEnabled: 1
+  logEnabled: 0
 --- !u!1 &1273208000
 GameObject:
   m_ObjectHideFlags: 0
