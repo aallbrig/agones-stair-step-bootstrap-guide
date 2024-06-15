@@ -1,3 +1,8 @@
+## June 15th 2024
+I'm able to get the build running in a container. Surprisingly has broken ability for game clients to connect directly to game server running in unity editor. I'll have to fix that.
+
+Trying to figure out the sequence of commands to be able to connect to the game server image running in minikube.
+
 ## June 14th 2024
 So far, onboarding onto Agones is _very_ pleasant. The developers have thought about how to enable rapid prototype development on localhost. There exists a clear stair stepped bootstrap story that I just really jibe with.
 

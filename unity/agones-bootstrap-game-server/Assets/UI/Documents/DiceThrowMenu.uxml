@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:VisualElement class="dice-throw-menu-container">
+        <ui:Button name="d2Button" text="Select D2 Dice" class="dice-throw-menu-button"/>
+        <ui:Button name="d4Button" text="Select D4 Dice" class="dice-throw-menu-button"/>
+        <ui:Button name="d6Button" text="Select D6 Dice" class="dice-throw-menu-button"/>
+        <ui:Button name="d8Button" text="Select D8 Dice" class="dice-throw-menu-button"/>
+        <ui:Button name="d12Button" text="Select D12 Dice" class="dice-throw-menu-button"/>
+        <ui:Button name="d20Button" text="Select D20 Dice" class="dice-throw-menu-button"/>
+    </ui:VisualElement>
+</ui:UXML>

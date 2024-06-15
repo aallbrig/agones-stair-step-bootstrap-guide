@@ -22,7 +22,7 @@ namespace Editor
                 locationPathName = "Builds/GameClient/game.amd64.app",
                 target = BuildTarget.StandaloneOSX,
                 // subtarget = (int) StandaloneBuildSubtarget.NoSubtarget,
-                options = BuildOptions.None
+                options = BuildOptions.Development
             });
         }
         [MenuItem("Game/BuildManager/Build Game Server")]

@@ -8,13 +8,11 @@ public class AgonesGameServer : NetworkManager
     private AgonesSdk agonesSdk;
     [SerializeField]
     private AgonesAlphaSdk agonesAlphaSdk;
-
     public override void OnApplicationQuit()
     {
         GameServerShutdown();
         base.OnApplicationQuit();
     }
-
     public override void Awake()
     {
         agonesSdk ??= GetComponent<AgonesSdk>();
@@ -33,24 +31,26 @@ public class AgonesGameServer : NetworkManager
             enabled = false;
             return;
         }
-        agonesSdk.enabled = false;
-        agonesAlphaSdk.enabled = false;
+        EnableSdk(false);
         base.Awake();
     }
     public override void OnStartServer()
     {
-        agonesSdk.enabled = true;
-        agonesAlphaSdk.enabled = true;
+        EnableSdk();
         GameServerReady();
     }
     public override void OnStopServer()
     {
         GameServerShutdown();
-        agonesSdk.enabled = true;
-        agonesAlphaSdk.enabled = true;
+        EnableSdk(false);
     }
     private async void GameServerReady()
     {
+        if (agonesSdk == null)
+        {
+            Debug.LogError($"{name} | unable to find AgonesSdk component in scene");
+            return;
+        }
         var ok = await agonesSdk.Connect();
         if (!ok)
         {
@@ -75,5 +75,10 @@ public class AgonesGameServer : NetworkManager
             return;
         }
         Debug.Log($"{name} | game server shutdown with agones platform");
+    }
+    private void EnableSdk(bool enableValue = true)
+    {
+        agonesSdk.enabled = enableValue;
+        agonesAlphaSdk.enabled = enableValue;
     }
 }

@@ -9,7 +9,7 @@ public class NetworkPlayerController : NetworkBehaviour
     [SerializeField] private CharacterController characterController;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private float movementSpeed = 5.0f;
-    [SerializeField] private float rotationSpeed = 16.0f;
+    [SerializeField] private float rotationSpeed = 8.0f;
     [SerializeField] private CinemachineFreeLook playerCamera;
     private Vector2 _moveInput;
     private Camera _mainCamera;
